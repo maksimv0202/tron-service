@@ -3,6 +3,7 @@ from decimal import Decimal
 
 from httpx import AsyncClient
 
+from exceptions import HTTP404StatusError
 from accounts.repositories import AccountRepository
 
 
@@ -45,6 +46,8 @@ class AsyncTronGrid:
             headers=self.headers
         )
         response.raise_for_status()
+        if response.json().get('Error', None):
+            raise HTTP404StatusError
         return response.json()
 
     async def get_account_resource(self, address: str) -> dict:
