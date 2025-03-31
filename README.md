@@ -15,11 +15,14 @@ POSTGRES_DB="tron"
 
 ## 🐳 Запуск проекта в Docker
 ```shell
-docker compose -f docker-compose.yml --env-file ./env up -d
+docker compose -f docker-compose.yml --env-file ./src/.env up -d
 ```
 
 ## Запуск проекта локально
-...
+```shell
+cd src
+uvicorn main:app --host 127.0.0.1 --port 8080
+```
 
 ## Benchmarks
 ...
