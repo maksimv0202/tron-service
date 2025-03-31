@@ -23,13 +23,14 @@ class AccountRepository(SQLAlchemyAbstractRepository):
                 await self._session.refresh(model)
             return model
         except (SQLAlchemyError, Exception) as e:
-            await self._session.rollback()
             raise RuntimeError(e)
 
-    async def get(self, offset: int, limit: int) -> list[Account]:
+    async def get(self, offset: int = None, limit: int = None) -> list[Account]:
         try:
-            offset_min = (offset - 1) * limit
-            q = select(Account).order_by(Account.id).offset(offset_min).limit(limit)
+            q = select(Account).order_by(Account.id)
+            if offset and limit:
+                offset_min = (offset - 1) * limit
+                q = q.offset(offset_min).limit(limit)
             result = await self._session.execute(q)
             return list(result.scalars().all())
         except (SQLAlchemyError, Exception) as e:

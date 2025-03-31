@@ -77,6 +77,9 @@ class AccountService:
     def __init__(self, repository: AccountRepository):
         self._repository = repository
 
+    async def add_account(self):
+        pass
+
     async def get_paginated(self, page: int, size: int):
         data = await self._repository.get(page, size)
         total = await self._repository.get_total_count()

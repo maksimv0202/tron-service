@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from accounts.models import Account
 from accounts.repositories import AccountRepository
 from accounts.schemas import AccountSchema, AccountResponseSchema
-from accounts.service import AsyncTronGrid, AccountService
+from accounts.services import AsyncTronGrid, AccountService
 from db import get_async_session
 from exceptions import HTTP404StatusError
 from utils.schemas import PaginatedResponseSchema
@@ -44,7 +44,8 @@ async def get_account(address: str, session: AsyncSession = Depends(get_async_se
 
 @router.get('/requests', response_model=PaginatedResponseSchema[AccountSchema])
 async def get_requests(
-        page: int = Query(ge=1, default=1),
-        size: int = Query(ge=1, le=100, default=100),
-        session: AsyncSession = Depends(get_async_session)) -> Any:
+    page: int = Query(ge=1, default=1),
+    size: int = Query(ge=1, le=100, default=100),
+    session: AsyncSession = Depends(get_async_session)
+) -> Any:
     return await AccountService(AccountRepository(session)).get_paginated(page, size)
