@@ -11,7 +11,7 @@ engine = create_async_engine('postgresql+asyncpg://{}:{}@{}:{}/{}'.format(
     settings.POSTGRES_HOST,
     settings.POSTGRES_PORT,
     settings.POSTGRES_DB,
-), echo=True)
+), echo=False)
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
