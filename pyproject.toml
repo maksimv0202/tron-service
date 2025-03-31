@@ -1,0 +1,25 @@
+[project]
+name = "tron-service"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "maksimv0202",email = "maksimv0202@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = "src/"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-asyncio = "^0.26.0"
+aiosqlite = "^0.21.0"
+
