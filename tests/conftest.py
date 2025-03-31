@@ -1,0 +1,30 @@
+from typing import AsyncGenerator
+
+import pytest_asyncio
+
+from sqlalchemy import StaticPool
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+
+from accounts.models import Base
+
+
+@pytest_asyncio.fixture(scope='session')
+async def async_engine():
+    engine = create_async_engine(
+        'sqlite+aiosqlite:///:memory:',
+        echo=True,
+        connect_args={'check_same_thread': False},
+        poolclass=StaticPool
+    )
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield engine
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+
+
+@pytest_asyncio.fixture
+async def async_session(async_engine) -> AsyncGenerator[AsyncSession, None]:
+    async_session = async_sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
+    async with async_session() as session:
+        yield session
