@@ -5,6 +5,7 @@ from httpx import AsyncClient
 
 from exceptions import HTTP404StatusError
 from accounts.repositories import AccountRepository
+from accounts.models import Account
 
 
 class AsyncTronGrid:
@@ -77,8 +78,8 @@ class AccountService:
     def __init__(self, repository: AccountRepository):
         self._repository = repository
 
-    async def add_account(self):
-        pass
+    async def add_account(self, account: Account) -> Account:
+        return await self._repository.add(account)
 
     async def get_paginated(self, page: int, size: int):
         data = await self._repository.get(page, size)

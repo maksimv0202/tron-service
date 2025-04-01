@@ -18,12 +18,6 @@ POSTGRES_DB="tron"
 docker compose -f docker-compose.yml --env-file .env up -d
 ```
 
-## Запуск проекта локально
-```shell
-cd src
-uvicorn main:app --host 127.0.0.1 --port 8080
-```
-
 ## Benchmarks
 ```shell
 # /tests/load/

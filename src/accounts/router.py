@@ -29,8 +29,7 @@ async def get_account(address: str, session: AsyncSession = Depends(get_async_se
             bandwidth = async_tron_grid.get_account_bandwidth()
             energy = async_tron_grid.get_account_energy()
 
-            # TODO: AccountService method
-            return await AccountRepository(session).add(Account(
+            return await AccountService(AccountRepository(session)).add_account(Account(
                 address=address,
                 bandwidth=bandwidth,
                 energy=energy,
