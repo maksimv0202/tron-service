@@ -16,14 +16,14 @@ async def async_engine():
         poolclass=StaticPool
     )
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
     yield engine
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(Base.metadata.drop_all)
 
 
 @pytest_asyncio.fixture
 async def async_session(async_engine) -> AsyncGenerator[AsyncSession, None]:
-    async_session = async_sessionmaker(async_engine, autocommit=False, autoflush=False, expire_on_commit=False)
+    async_session = async_sessionmaker(async_engine, expire_on_commit=False)
     async with async_session() as session:
         yield session
