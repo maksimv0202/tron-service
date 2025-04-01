@@ -5,8 +5,8 @@ from accounts.router import router
 from utils.migrations import lifespan
 
 app = FastAPI(
-    title='Title',
-    description='Description.',
+    title='TRON Service',
+    description='Микросервис, который выводит информацию по адресу в сети трон, его bandwidth, energy, и баланс trx.',
     version='1.0.0',
     root_path='/api/v1',
     lifespan=lifespan
