@@ -15,12 +15,10 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Validate build configuration
         uses: docker/bake-action@v6
-        with:
-          targets: validate-build
       - name: Build
         uses: docker/bake-action@v6
         with:
-          targets: build
+          context: .
           push: false
   test:
     name: Run tests
