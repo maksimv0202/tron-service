@@ -27,7 +27,25 @@ async def test_add_account(async_session):
 
 @pytest.mark.asyncio
 async def test_get_accounts(async_session):
-    for i in range(1, 8):
+    for i in range(25):
+        test_account = {
+            'address': f'TZ4UXDV5ZhNW7fb2AMSbgfAEZ7hWsn7D{i}g',
+            'bandwidth': i * 100,
+            'energy': i * 200,
+            'balance': Decimal(str(i * 9.01))
+        }
+        await AccountRepository(async_session).add(Account(**test_account))
+
+    accounts = await AccountRepository(async_session).get()
+    assert len(accounts) == 25
+
+    total_count = await AccountRepository(async_session).get()
+    assert len(total_count) == 25
+
+
+@pytest.mark.asyncio
+async def test_get_accounts_with_pagination(async_session):
+    for i in range(1, 9):
         test_account = {
             'address': f'TZ4UXDV5ZhNW7fb2AMSbgfAEZ7hWsn7D{i}g',
             'bandwidth': i * 100,
@@ -44,3 +62,4 @@ async def test_get_accounts(async_session):
 
     page_3 = await AccountRepository(async_session).get(offset=3, limit=3)
     assert [account.id for account in page_3] == [7, 8]
+
