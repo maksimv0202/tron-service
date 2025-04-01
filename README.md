@@ -15,7 +15,7 @@ POSTGRES_DB="tron"
 
 ## 🐳 Запуск проекта в Docker
 ```shell
-docker compose -f docker-compose.yml --env-file ./src/.env up -d
+docker compose -f docker-compose.yml --env-file .env up -d
 ```
 
 ## Запуск проекта локально
@@ -25,4 +25,13 @@ uvicorn main:app --host 127.0.0.1 --port 8080
 ```
 
 ## Benchmarks
-...
+```shell
+# /tests/load/
+locust -f locustfile.py --host http://localhost --class
+```
+
+### POST /api/v1/accounts/{address}
+![total_requests_per_second_1743522618 484](https://github.com/user-attachments/assets/281b4e40-8a6b-4502-af40-9a86908a1c61)
+
+### GET /api/v1/requests
+![total_requests_per_second_1743523168 893](https://github.com/user-attachments/assets/6a379728-8fb7-4179-abb3-47c43d26cd2b)
